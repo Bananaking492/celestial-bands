@@ -2,41 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Celestial Luxury Design System - Apple Watch Webshop 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cosmic Background */
+    --background: 250 35% 8%;
+    --background-gradient: linear-gradient(135deg, hsl(260 40% 15%) 0%, hsl(240 55% 25%) 50%, hsl(220 60% 35%) 100%);
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Glass Cards */
+    --card: 240 20% 15% / 0.3;
+    --card-foreground: 210 40% 98%;
+    --card-border: 200 50% 70% / 0.2;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Glass Popover */
+    --popover: 240 20% 15% / 0.9;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Celestial Primary */
+    --primary: 200 100% 70%;
+    --primary-foreground: 250 35% 8%;
+    --primary-glow: 200 100% 80%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Luxury Silver */
+    --secondary: 210 15% 85%;
+    --secondary-foreground: 250 35% 8%;
+    --secondary-dark: 210 10% 60%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted Glass */
+    --muted: 240 20% 25% / 0.3;
+    --muted-foreground: 210 20% 75%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent Turquoise */
+    --accent: 180 80% 60%;
+    --accent-foreground: 250 35% 8%;
+    --accent-glow: 180 80% 70%;
 
+    /* Destructive */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Glass Borders */
+    --border: 200 50% 70% / 0.15;
+    --input: 240 20% 25% / 0.4;
+    --ring: 200 100% 70%;
 
-    --radius: 0.5rem;
+    /* Gradients */
+    --gradient-cosmic: linear-gradient(135deg, hsl(260 40% 15%) 0%, hsl(240 55% 25%) 25%, hsl(220 60% 35%) 75%, hsl(200 70% 45%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(240 20% 25% / 0.1) 0%, hsl(200 50% 70% / 0.05) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(200 100% 70%) 0%, hsl(180 80% 60%) 100%);
+    --gradient-silver: linear-gradient(135deg, hsl(210 15% 85%) 0%, hsl(210 10% 70%) 100%);
+
+    /* Shadows */
+    --shadow-cosmic: 0 25px 50px -12px hsl(240 55% 15% / 0.8);
+    --shadow-glow: 0 0 40px hsl(200 100% 70% / 0.3);
+    --shadow-accent: 0 0 30px hsl(180 80% 60% / 0.4);
+
+    /* Glass Properties */
+    --glass-bg: backdrop-blur(16px) saturate(180%);
+    --glass-border: 1px solid hsl(200 50% 70% / 0.2);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +130,117 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-cosmic);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Cosmic Animation Classes */
+  .cosmic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-cosmic);
+    z-index: -1;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite alternate;
+  }
+
+  .shooting-star {
+    position: absolute;
+    background: linear-gradient(45deg, transparent, hsl(200 100% 80%), transparent);
+    border-radius: 2px;
+    animation: shoot 4s linear infinite;
+    opacity: 0;
+  }
+
+  .glass-card {
+    background: hsl(var(--card));
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--card-border));
+    box-shadow: var(--shadow-cosmic);
+  }
+
+  .glass-nav {
+    background: hsl(240 20% 25% / 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 8px 32px hsl(240 55% 15% / 0.4);
+  }
+
+  .product-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .product-card:hover {
+    transform: translateY(-12px) rotateX(5deg);
+    box-shadow: var(--shadow-glow), var(--shadow-cosmic);
+  }
+
+  .floating-watch {
+    animation: float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  @keyframes shoot {
+    0% { 
+      opacity: 0; 
+      transform: translateX(-100px) translateY(100px) rotate(45deg); 
+    }
+    10% { 
+      opacity: 1; 
+    }
+    90% { 
+      opacity: 1; 
+    }
+    100% { 
+      opacity: 0; 
+      transform: translateX(200px) translateY(-200px) rotate(45deg); 
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px) rotateY(0deg); 
+    }
+    25% { 
+      transform: translateY(-20px) rotateY(90deg); 
+    }
+    50% { 
+      transform: translateY(-10px) rotateY(180deg); 
+    }
+    75% { 
+      transform: translateY(-15px) rotateY(270deg); 
+    }
+  }
+
+  /* Typography Enhancements */
+  .cosmic-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .luxury-text {
+    background: var(--gradient-silver);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
