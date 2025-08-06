@@ -1,11 +1,20 @@
 import { useState } from 'react';
 import { Menu, ShoppingBag, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const GlassNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const navItems = [
+    { label: 'Shop', href: '/' },
+    { label: 'Collections', href: '/collections' },
+    { label: 'About', href: '/about' },
+    { label: 'Support', href: '/support' },
+  ];
 
   const handleSearch = () => {
     toast({
@@ -15,42 +24,29 @@ export const GlassNavbar = () => {
   };
 
   const handleCartClick = () => {
-    toast({
-      title: "Shopping Cart",
-      description: "Cart functionality coming soon! 🛒",
-    });
+    navigate('/cart');
   };
 
-  const handleNavClick = (section: string) => {
-    if (section === '#shop') {
-      const shopElement = document.getElementById('shop');
-      if (shopElement) {
-        shopElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      toast({
-        title: "Navigation",
-        description: `${section.replace('#', '').charAt(0).toUpperCase() + section.slice(2)} section coming soon!`,
-      });
-    }
+  const handleNavClick = (href: string) => {
+    navigate(href);
     setIsMenuOpen(false);
   };
 
-  const navItems = [
-    { label: 'Shop', href: '#shop' },
-    { label: 'Collections', href: '#collections' },
-    { label: 'About', href: '#about' },
-    { label: 'Support', href: '#support' },
-  ];
+  const handleLogoClick = () => {
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-2xl font-display font-bold cosmic-text">
+          <button 
+            onClick={handleLogoClick}
+            className="text-2xl font-display font-bold cosmic-text hover:text-primary transition-colors"
+          >
             Celestial Bands
-          </div>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
