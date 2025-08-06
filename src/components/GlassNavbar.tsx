@@ -1,9 +1,40 @@
 import { useState } from 'react';
 import { Menu, ShoppingBag, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 export const GlassNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleSearch = () => {
+    toast({
+      title: "Search",
+      description: "Search functionality coming soon! 🔍",
+    });
+  };
+
+  const handleCartClick = () => {
+    toast({
+      title: "Shopping Cart",
+      description: "Cart functionality coming soon! 🛒",
+    });
+  };
+
+  const handleNavClick = (section: string) => {
+    if (section === '#shop') {
+      const shopElement = document.getElementById('shop');
+      if (shopElement) {
+        shopElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      toast({
+        title: "Navigation",
+        description: `${section.replace('#', '').charAt(0).toUpperCase() + section.slice(2)} section coming soon!`,
+      });
+    }
+    setIsMenuOpen(false);
+  };
 
   const navItems = [
     { label: 'Shop', href: '#shop' },
@@ -24,22 +55,22 @@ export const GlassNavbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <button
                 key={item.label}
-                href={item.href}
+                onClick={() => handleNavClick(item.href)}
                 className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
               >
                 {item.label}
-              </a>
+              </button>
             ))}
           </div>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary">
+            <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary" onClick={handleSearch}>
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary">
+            <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary" onClick={handleCartClick}>
               <ShoppingBag className="h-5 w-5" />
             </Button>
             
@@ -60,14 +91,13 @@ export const GlassNavbar = () => {
           <div className="md:hidden mt-4 pb-4 border-t border-border">
             <div className="flex flex-col space-y-4 mt-4">
               {navItems.map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href={item.href}
-                  className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => handleNavClick(item.href)}
+                  className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium text-left"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
             </div>
           </div>

@@ -6,9 +6,34 @@ import { GlassNavbar } from '@/components/GlassNavbar';
 import { FloatingWatch } from '@/components/FloatingWatch';
 import { ProductCard } from '@/components/ProductCard';
 import { FilterPanel } from '@/components/FilterPanel';
+import { useToast } from '@/components/ui/use-toast';
 
 const Index = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [cartItems, setCartItems] = useState<string[]>([]);
+  const { toast } = useToast();
+
+  const handleExploreCollection = () => {
+    const shopSection = document.getElementById('shop');
+    if (shopSection) {
+      shopSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleCustomizeBand = () => {
+    toast({
+      title: "Customize Your Band",
+      description: "Band customization feature coming soon! 🎨",
+    });
+  };
+
+  const handleAddToCart = (productId: string, productName: string) => {
+    setCartItems(prev => [...prev, productId]);
+    toast({
+      title: "Added to Cart",
+      description: `${productName} has been added to your cart!`,
+    });
+  };
 
   // Mock product data
   const products = [
@@ -92,6 +117,7 @@ const Index = () => {
             <Button 
               size="lg" 
               className="bg-primary-gradient hover:shadow-glow transition-all duration-300 text-lg px-8 py-3"
+              onClick={handleExploreCollection}
             >
               Explore Collection
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -100,6 +126,7 @@ const Index = () => {
               variant="outline" 
               size="lg"
               className="border-card-border hover:border-primary text-lg px-8 py-3"
+              onClick={handleCustomizeBand}
             >
               <Sparkles className="mr-2 h-5 w-5" />
               Customize Your Band
@@ -147,7 +174,11 @@ const Index = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                 {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onAddToCart={() => handleAddToCart(product.id, product.name)}
+                  />
                 ))}
               </div>
             </div>

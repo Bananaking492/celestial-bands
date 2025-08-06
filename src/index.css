@@ -243,4 +243,12 @@ All colors MUST be HSL.
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .floating-watch {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .rotate-y-360 {
+    transform: rotateY(360deg);
+  }
 }

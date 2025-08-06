@@ -13,9 +13,10 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
+  onAddToCart?: () => void;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   return (
     <div className="product-card glass-card rounded-2xl p-6 group">
       {/* Product Image */}
@@ -69,6 +70,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <Button 
           className="w-full mt-4 bg-primary-gradient hover:shadow-glow transition-all duration-300"
           size="sm"
+          onClick={onAddToCart}
         >
           Add to Cart
         </Button>
